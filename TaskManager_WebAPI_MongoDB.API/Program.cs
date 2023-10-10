@@ -1,3 +1,5 @@
+using TaskManager_WebAPI_MongoDB.DAL.Data;
+
 namespace TaskManager_WebAPI_MongoDB.API
 {
     public class Program
@@ -8,8 +10,10 @@ namespace TaskManager_WebAPI_MongoDB.API
 
             // Add services to the container.
 
+            builder.Services.Configure<DbSetting>(builder.Configuration.GetSection("ConnectionStrings"));
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -23,7 +27,6 @@ namespace TaskManager_WebAPI_MongoDB.API
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

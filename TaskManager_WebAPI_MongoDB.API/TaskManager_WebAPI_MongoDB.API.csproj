@@ -11,4 +11,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManager_WebAPI_MongoDB.DAL\TaskManager_WebAPI_MongoDB.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -2,7 +2,7 @@
 
 namespace TaskManager_WebAPI_MongoDB.DAL.Data
 {
-    internal class DbSetting : IDbSetting
+    public class DbSetting : IDbSetting
     {
         public string DbName { get; } = string.Empty;
 

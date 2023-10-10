@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager_WebAPI_MongoDB.API", "TaskManager_WebAPI_MongoDB.API\TaskManager_WebAPI_MongoDB.API.csproj", "{695DC16A-CE75-4A7A-BFB0-34585B30DB9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{695DC16A-CE75-4A7A-BFB0-34585B30DB9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695DC16A-CE75-4A7A-BFB0-34585B30DB9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695DC16A-CE75-4A7A-BFB0-34585B30DB9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695DC16A-CE75-4A7A-BFB0-34585B30DB9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD3E95F0-DB05-42CE-97F5-E4BDDCB22E01}
+	EndGlobalSection
+EndGlobal

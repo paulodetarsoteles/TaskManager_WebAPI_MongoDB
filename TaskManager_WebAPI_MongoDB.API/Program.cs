@@ -1,4 +1,8 @@
+using Microsoft.Extensions.Options;
 using TaskManager_WebAPI_MongoDB.DAL.Data;
+using TaskManager_WebAPI_MongoDB.DAL.Data.Interfaces;
+using TaskManager_WebAPI_MongoDB.DAL.Repositories;
+using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;
 
 namespace TaskManager_WebAPI_MongoDB.API
 {
@@ -11,6 +15,9 @@ namespace TaskManager_WebAPI_MongoDB.API
             // Add services to the container.
 
             builder.Services.Configure<DbSetting>(builder.Configuration.GetSection("ConnectionStrings"));
+            builder.Services.AddSingleton<IDbSetting>(dbs => dbs.GetRequiredService<IOptions<DbSetting>>().Value);
+
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
             builder.Services.AddControllers();
 

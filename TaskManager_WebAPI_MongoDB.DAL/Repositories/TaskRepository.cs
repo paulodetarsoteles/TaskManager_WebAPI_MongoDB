@@ -2,7 +2,7 @@
 
 namespace TaskManager_WebAPI_MongoDB.DAL.Repositories
 {
-    internal class TaskRepository : ITaskRepository
+    public class TaskRepository : ITaskRepository
     {
         public IEnumerable<Task> GetAll()
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;
 
 namespace TaskManager_WebAPI_MongoDB.API.Controllers
 {
@@ -6,6 +7,10 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
     [ApiController]
     public class MainController : ControllerBase
     {
+        private readonly ITaskRepository _repository;
+
+        public MainController(ITaskRepository repository) => _repository = repository;
+
         // GET: api/<MainController>
         [HttpGet]
         public IEnumerable<string> Get()

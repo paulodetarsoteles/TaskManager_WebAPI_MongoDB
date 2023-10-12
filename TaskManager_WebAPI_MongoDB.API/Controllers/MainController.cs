@@ -19,8 +19,8 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
         }
 
         // GET api/<MainController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{name}")]
+        public string Get(string name)
         {
             return "value";
         }
@@ -32,14 +32,14 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
         }
 
         // PUT api/<MainController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{name}")]
+        public void Put(string name, [FromBody] string value)
         {
         }
 
         // DELETE api/<MainController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string name)
         {
         }
     }

@@ -1,8 +1,8 @@
-﻿namespace TaskManager_WebAPI_MongoDB.API.Models
+﻿namespace TaskManager_WebAPI_MongoDB.DAL.Models
 {
-    public class Task
+    public class TaskToDo
     {
-        public Task(string name, int? value)
+        public TaskToDo(string name, int? value)
         {
             TaskId = Guid.NewGuid().ToString();
             Name = name;

@@ -11,34 +11,34 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
 
         public MainController(ITaskRepository repository) => _repository = repository;
 
-        // GET: api/<MainController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        // GET: apiV1/main/GetAll
+        [HttpGet("GetAll")]
+        public IEnumerable<string> GetAll()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<MainController>/5
-        [HttpGet("{name}")]
-        public string Get(string name)
+        // GET apiV1/main/GetByName/teste
+        [HttpGet("GetByName/{name}")]
+        public string GetByName(string name)
         {
             return "value";
         }
 
-        // POST api/<MainController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        // POST apiV1/main/Create
+        [HttpPost("Create")]
+        public void Create([FromBody] string value)
         {
         }
 
-        // PUT api/<MainController>/5
-        [HttpPut("{name}")]
-        public void Put(string name, [FromBody] string value)
+        // PUT apiV1/main/Update/teste
+        [HttpPut("Update/{name}")]
+        public void Update(string name, [FromBody] string value)
         {
         }
 
-        // DELETE api/<MainController>/5
-        [HttpDelete("{id}")]
+        // DELETE apiV1/main/Delete/teste
+        [HttpDelete("Delete/{name}")]
         public void Delete(string name)
         {
         }

@@ -21,7 +21,7 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
             {
                 var tasks = await _repository.GetAll();
 
-                if (tasks is null)
+                if (tasks is null || !tasks.Any())
                     return NoContent();
 
                 return Ok(tasks);
@@ -95,10 +95,10 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
                 if (string.IsNullOrEmpty(name))
                     return NoContent();
 
-                TaskToDo oldTask = _repository.GetByName(name);
+                TaskToDo? oldTask = _repository.GetByName(name);
 
                 if (oldTask is null)
-                    StatusCode(StatusCodes.Status204NoContent, $"Nenhuma entidade com o nome {name} foi encontrada.");
+                    return StatusCode(StatusCodes.Status204NoContent, $"Nenhuma entidade com o nome {name} foi encontrada.");
 
                 TaskToDo newTask = new(taskInput.Name, taskInput.Value);
 

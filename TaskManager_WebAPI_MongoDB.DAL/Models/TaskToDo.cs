@@ -1,5 +1,8 @@
-﻿namespace TaskManager_WebAPI_MongoDB.DAL.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace TaskManager_WebAPI_MongoDB.DAL.Models
 {
+    [BsonIgnoreExtraElements]
     public class TaskToDo
     {
         public TaskToDo(string name, int? value)

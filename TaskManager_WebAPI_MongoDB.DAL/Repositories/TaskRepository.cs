@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using TaskManager_WebAPI_MongoDB.DAL.Data.Interfaces;
 using TaskManager_WebAPI_MongoDB.DAL.Models;
@@ -46,17 +47,11 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Repositories
             }
         }
 
-        public async Task<TaskToDo> Insert(TaskToDo task)
+        public async void Insert(TaskToDo task)
         {
             try
             {
                 await _taskCollections.InsertOneAsync(task);
-
-                TaskToDo? result = await _taskCollections.Find(t => t.Name == task.Name)
-                                                         .FirstOrDefaultAsync()
-                                                         .WaitAsync(new TimeSpan(0, 0, 30));
-
-                return result is null ? throw new Exception("Entidade não adicionada!") : result;
             }
             catch (Exception e)
             {
@@ -64,14 +59,28 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Repositories
             }
         }
 
-        public Task<TaskToDo> Update(string taskId, TaskToDo task)
+        public async void Update(string taskName, TaskToDo task)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _taskCollections.ReplaceOneAsync(t => t.Name == taskName, task);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Erro ao acessar o banco de dados - {e.Message}");
+            }
         }
 
-        public void Delete(string taskId)
+        public async void Delete(string taskName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _taskCollections.DeleteOneAsync(t => t.Name == taskName);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Erro ao acessar o banco de dados - {e.Message}");
+            }
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Xml.Linq;
+using TaskManager_WebAPI_MongoDB.API.DTO;
 using TaskManager_WebAPI_MongoDB.DAL.Models;
 using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;
 
@@ -28,7 +31,7 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao buscar entidades - {DateTime.Now} - {ex.Message}.");
-                return BadRequest("Erro ao buscar entidades.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao buscar entidades.");
             }
         }
 
@@ -51,14 +54,38 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao buscar entidade {name} - {DateTime.Now} - {ex.Message}.");
-                return BadRequest($"Erro ao buscar entidade {name} - {DateTime.Now}.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao buscar entidade {name} - {DateTime.Now}.");
             }
         }
 
         // POST apiV1/main/Create
         [HttpPost("Create")]
-        public void Create([FromBody] string value)
+        public IActionResult Create([FromBody] TaskToDoDTO taskInput)
         {
+            try
+            {
+                if (taskInput is null)
+                    return NoContent();
+
+                if (_repository.GetByName(taskInput.Name) is not null)
+                    return BadRequest($"Entidade com o nome {taskInput.Name} já consta na base.");
+
+                TaskToDo newTask = new(taskInput.Name, taskInput.Value);
+
+                if (taskInput.Done == true)
+                    newTask.Done = true;
+
+                newTask.CreationDate = DateTime.Now;
+
+                _repository.Insert(newTask);
+
+                return Created("", newTask);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao inserir entidade {taskInput.Name} - {DateTime.Now} - {ex.Message}.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao inserir entidade {taskInput.Name} - {DateTime.Now}.");
+            }
         }
 
         // PUT apiV1/main/Update/teste

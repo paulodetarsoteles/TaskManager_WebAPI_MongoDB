@@ -12,11 +12,11 @@
             UpdateDate = null;
         }
 
-        public string TaskId { get; private set; } = string.Empty;
-        public string Name { get; private set; } = string.Empty;
-        public int? Value { get; private set; }
+        public string TaskId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public int? Value { get; set; }
         public bool Done { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
         public DateTime? UpdateDate { get; set; }
     }
 }

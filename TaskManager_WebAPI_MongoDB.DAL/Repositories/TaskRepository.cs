@@ -31,13 +31,12 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Repositories
             }
         }
 
-        public async Task<TaskToDo> GetByName(string name)
+        public TaskToDo GetByName(string name)
         {
             try
             {
-                return await _taskCollections.Find(t => t.Name == name)
-                                             .FirstOrDefaultAsync()
-                                             .WaitAsync(new TimeSpan(0, 0, 30));
+                return _taskCollections.Find(t => t.Name == name)
+                                             .FirstOrDefault();
             }
             catch (Exception e)
             {

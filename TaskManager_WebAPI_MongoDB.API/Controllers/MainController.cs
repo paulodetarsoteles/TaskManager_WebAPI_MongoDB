@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Xml.Linq;
 using TaskManager_WebAPI_MongoDB.API.DTO;
 using TaskManager_WebAPI_MongoDB.DAL.Models;
 using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;
@@ -37,14 +35,14 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
 
         // GET apiV1/main/GetByName/teste
         [HttpGet("GetByName/{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        public IActionResult GetByName(string name)
         {
             try
             {
                 if (string.IsNullOrEmpty(name))
                     return NotFound("Nome inválido. ");
 
-                var task = await _repository.GetByName(name);
+                var task = _repository.GetByName(name);
 
                 if (task is null)
                     return StatusCode(StatusCodes.Status204NoContent, $"Nenhuma entidade com o nome {name} foi encontrada.");
@@ -90,14 +88,60 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
 
         // PUT apiV1/main/Update/teste
         [HttpPut("Update/{name}")]
-        public void Update(string name, [FromBody] string value)
+        public IActionResult Update(string name, [FromBody] TaskToDoDTO taskInput)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(name))
+                    return NoContent();
+
+                TaskToDo oldTask = _repository.GetByName(name);
+
+                if (oldTask is null)
+                    StatusCode(StatusCodes.Status204NoContent, $"Nenhuma entidade com o nome {name} foi encontrada.");
+
+                TaskToDo newTask = new(taskInput.Name, taskInput.Value);
+
+                if (taskInput.Done == true)
+                    newTask.Done = true;
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                newTask.CreationDate = oldTask.CreationDate;
+                newTask.UpdateDate = DateTime.Now;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+                _repository.Update(name, newTask);
+
+                return Accepted(newTask);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao inserir entidade {taskInput.Name} - {DateTime.Now} - {ex.Message}.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao inserir entidade {taskInput.Name} - {DateTime.Now}.");
+            }
         }
 
         // DELETE apiV1/main/Delete/teste
         [HttpDelete("Delete/{name}")]
-        public void Delete(string name)
+        public IActionResult Delete(string name)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(name))
+                    return NoContent();
+
+                if (_repository.GetByName(name) is null)
+                    StatusCode(StatusCodes.Status204NoContent, $"Nenhuma entidade com o nome {name} foi encontrada.");
+
+                _repository.Delete(name);
+
+                return Ok($"Entidade {name} excluída com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao inserir entidade {name} - {DateTime.Now} - {ex.Message}.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao inserir entidade {name} - {DateTime.Now}.");
+            }
         }
     }
 }

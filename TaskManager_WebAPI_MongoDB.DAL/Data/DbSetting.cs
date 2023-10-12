@@ -6,6 +6,6 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Data
     {
         public string? DbName { get; set; }
 
-        public string? DbConnectionString { get; set;  }
+        public string? DbConnectionString { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager_WebAPI_MongoDB.DAL.Models;
 using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;
 
 namespace TaskManager_WebAPI_MongoDB.API.Controllers
@@ -13,16 +14,34 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
 
         // GET: apiV1/main/GetAll
         [HttpGet("GetAll")]
-        public IEnumerable<string> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var tasks = await _repository.GetAll();
+                return Ok(tasks);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao buscar entidades - {DateTime.Now} - {ex.Message}");
+                return BadRequest("Erro ao buscar entidades");
+            }
         }
 
         // GET apiV1/main/GetByName/teste
         [HttpGet("GetByName/{name}")]
-        public string GetByName(string name)
+        public async Task<IActionResult> GetByName(string name)
         {
-            return "value";
+            try
+            {
+                var task = await _repository.GetByName(name);
+                return Ok(task);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao buscar entidade {name} - {DateTime.Now} - {ex.Message}");
+                return BadRequest($"Erro ao buscar entidade {name} - {DateTime.Now}");
+            }
         }
 
         // POST apiV1/main/Create

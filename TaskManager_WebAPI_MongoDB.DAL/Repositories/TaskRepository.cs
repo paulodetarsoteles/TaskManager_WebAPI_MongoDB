@@ -1,6 +1,4 @@
 ﻿using MongoDB.Driver;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using TaskManager_WebAPI_MongoDB.DAL.Data.Interfaces;
 using TaskManager_WebAPI_MongoDB.DAL.Models;
 using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;

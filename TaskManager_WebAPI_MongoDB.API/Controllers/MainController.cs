@@ -19,12 +19,16 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
             try
             {
                 var tasks = await _repository.GetAll();
+
+                if (tasks is null)
+                    return NoContent();
+
                 return Ok(tasks);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao buscar entidades - {DateTime.Now} - {ex.Message}");
-                return BadRequest("Erro ao buscar entidades");
+                Console.WriteLine($"Erro ao buscar entidades - {DateTime.Now} - {ex.Message}.");
+                return BadRequest("Erro ao buscar entidades.");
             }
         }
 
@@ -34,13 +38,20 @@ namespace TaskManager_WebAPI_MongoDB.API.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(name))
+                    return NotFound("Nome inválido. ");
+
                 var task = await _repository.GetByName(name);
+
+                if (task is null)
+                    return StatusCode(StatusCodes.Status204NoContent, $"Nenhuma entidade com o nome {name} foi encontrada.");
+
                 return Ok(task);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao buscar entidade {name} - {DateTime.Now} - {ex.Message}");
-                return BadRequest($"Erro ao buscar entidade {name} - {DateTime.Now}");
+                Console.WriteLine($"Erro ao buscar entidade {name} - {DateTime.Now} - {ex.Message}.");
+                return BadRequest($"Erro ao buscar entidade {name} - {DateTime.Now}.");
             }
         }
 

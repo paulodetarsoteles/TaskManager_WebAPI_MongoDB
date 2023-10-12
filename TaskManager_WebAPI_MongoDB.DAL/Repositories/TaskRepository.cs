@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System.Xml.Linq;
 using TaskManager_WebAPI_MongoDB.DAL.Data.Interfaces;
 using TaskManager_WebAPI_MongoDB.DAL.Models;
 using TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces;
@@ -31,13 +32,13 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Repositories
             }
         }
 
-        public Task<TaskToDo> GetByName(string name)
+        public async Task<TaskToDo> GetByName(string name)
         {
             try
             {
-                return _taskCollections.Find(t => t.Name == name)
-                                       .FirstOrDefaultAsync()
-                                       .WaitAsync(new TimeSpan(0, 0, 30));
+                return await _taskCollections.Find(t => t.Name == name)
+                                             .FirstOrDefaultAsync()
+                                             .WaitAsync(new TimeSpan(0, 0, 30));
             }
             catch (Exception e)
             {
@@ -45,12 +46,25 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Repositories
             }
         }
 
-        public void Insert(TaskToDo task)
+        public async Task<TaskToDo> Insert(TaskToDo task)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _taskCollections.InsertOneAsync(task);
+
+                TaskToDo? result = await _taskCollections.Find(t => t.Name == task.Name)
+                                                         .FirstOrDefaultAsync()
+                                                         .WaitAsync(new TimeSpan(0, 0, 30));
+
+                return result is null ? throw new Exception("Entidade não adicionada!") : result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Erro ao acessar o banco de dados - {e.Message}");
+            }
         }
 
-        public void Update(string taskId, TaskToDo task)
+        public Task<TaskToDo> Update(string taskId, TaskToDo task)
         {
             throw new NotImplementedException();
         }

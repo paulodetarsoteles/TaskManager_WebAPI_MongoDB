@@ -6,8 +6,8 @@ namespace TaskManager_WebAPI_MongoDB.DAL.Repositories.Interfaces
     {
         Task<IEnumerable<TaskToDo>> GetAll();
         Task<TaskToDo> GetByName(string name);
-        void Insert(TaskToDo task);
-        void Update(string taskId, TaskToDo task);
+        Task<TaskToDo> Insert(TaskToDo task);
+        Task<TaskToDo> Update(string taskId, TaskToDo task);
         void Delete(string taskId);
     }
 }
